@@ -1,0 +1,7 @@
+scrapy==2.9.0
+pymongo
+scrapy-useragents
+scrapy-fake-useragent
+flask
+scrapy_selenium
+flask-cors
