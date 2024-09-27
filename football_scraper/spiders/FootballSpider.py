@@ -16,7 +16,12 @@ class FootballSpider(scrapy.Spider):
         for row in response.xpath('//*[@class="wikitable"]/tbody/tr/td/p/b/a')[1:]:  # Skipping header row
             league_name = row.xpath('@title').get()
             league_url = row.xpath('@href').get()
+        for row in response.xpath('//*[@class="wikitable"]/tbody/tr/td/p/b/a')[1:]:  # Skipping header row
+            league_name = row.xpath('@title').get()
+            league_url = row.xpath('@href').get()
 
+            # Only proceed if both league_name and league_url are found and if the URL belongs to Wikipedia
+            if league_name and league_url and league_url.startswith('/wiki/'):
             # Only proceed if both league_name and league_url are found and if the URL belongs to Wikipedia
             if league_name and league_url and league_url.startswith('/wiki/'):
                 league_name = league_name.strip()
@@ -38,6 +43,19 @@ class FootballSpider(scrapy.Spider):
         league_name = response.meta['league_name']
         clubs = []
         
+        # Scraping club links and ensuring they are Wikipedia links
+        for club_link in response.xpath('//*[@class="wikitable"]/tbody/tr/td/a'):
+            club_name = club_link.xpath('@title').get()
+            if(club_link.xpath('@href').get() is not None):
+                club_url = 'https://en.wikipedia.org' + club_link.xpath('@href').get()
+            else:
+                club_url = ''
+            clubs.append({
+                'club_name': club_name,
+                'club_url': club_url
+            })
+            # Follow each club's link to extract player data
+            yield response.follow(club_url, self.parse_club, meta={'club_name': club_name, 'league_name': league_name})
         # Scraping club links and ensuring they are Wikipedia links
         for club_link in response.xpath('//*[@class="wikitable"]/tbody/tr/td/a'):
             club_name = club_link.xpath('@title').get()
