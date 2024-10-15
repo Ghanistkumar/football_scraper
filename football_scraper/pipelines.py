@@ -6,7 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-
+from football_scraper.queries.football_league import storeLeagues
 
 class FootballScraperPipeline:
 
@@ -14,7 +14,8 @@ class FootballScraperPipeline:
         print("Initialized mongodb pipline")
 
     def process_item(self, item, spider):
-        if spider.name == "football":
-            footballDict = ItemAdapter(item).asdict()
-            football = storeFootball(footballDict)
-            return football
+        if spider.name == "leagues":
+            leaguesDict = ItemAdapter(item).asdict()
+            leagues = storeLeagues(leaguesDict)
+            print(leaguesDict)
+            return leagues

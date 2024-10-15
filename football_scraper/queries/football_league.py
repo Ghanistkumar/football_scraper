@@ -1,11 +1,11 @@
 from datetime import datetime as dtm
-from musicians.config.db import footballLeagueTable
+from football_scraper.config.db import LeagueTable
 import json, pymongo
 from bson import ObjectId
 
-def storefootballLeague(footballLeague):
+def storeLeagues(footballLeague):
     footballLeague["created"] = dtm.utcnow()
-    return footballLeagueTable.find_one_and_update({"footballLeague_wiki_id": footballLeague['footballLeague_wiki_id']}, {"$set": footballLeague}, upsert=True, new=True)
+    return LeagueTable.find_one_and_update({"league_wiki_id": footballLeague['league_wiki_id']}, {"$set": footballLeague}, upsert=True, new=True)
 
 def getfootballLeagues(offset=0, limit=100, search=None):
     query = [
@@ -17,7 +17,7 @@ def getfootballLeagues(offset=0, limit=100, search=None):
         response = findfootballLeague(f'"{search}"')
         count = len(response)
     else:
-        result = list(footballLeagueTable.aggregate(query))
+        result = list(LeagueTable.aggregate(query))
         for item in result:
             item['_id'] = str(item['_id'])
         response = json.loads(json.dumps(result, default=str))
@@ -29,7 +29,7 @@ def getfootballLeagues(offset=0, limit=100, search=None):
     }
 
 def getfootballLeaguesCount():
-    return footballLeagueTable.count_documents({})
+    return LeagueTable.count_documents({})
 
 def findfootballLeague(text):
     index = [
@@ -47,8 +47,8 @@ def findfootballLeague(text):
             }
     }
     
-    footballLeagueTable.create_index(index)
-    data = list(footballLeagueTable.find(searchQuery))
+    LeagueTable.create_index(index)
+    data = list(LeagueTable.find(searchQuery))
     return json.loads(json.dumps(data, default=str))
 
 # def getfootballLeaguesforSearch(offset=0, limit=100, isCirightPushed=False):
@@ -92,4 +92,4 @@ def updatefootballLeagueIds(data):
             "manufactureId" : footballLeague['value'],
             "ciright_pushed": True,
         }
-        footballLeagueTable.find_one_and_update({"_id": ObjectId(footballLeague["key"])}, {"$set": updateData})
+        LeagueTable.find_one_and_update({"_id": ObjectId(footballLeague["key"])}, {"$set": updateData})
