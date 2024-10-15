@@ -1,37 +1,37 @@
 from datetime import datetime as dtm
-from football_scraper.config.db import LeagueTable
+from football_scraper.config.db import ClubTable
 import json, pymongo
 from bson import ObjectId
 
-def storeLeagues(footballLeague):
-    footballLeague["created"] = dtm.utcnow()
-    return LeagueTable.find_one_and_update({"league_wiki_id": footballLeague['league_wiki_id']}, {"$set": footballLeague}, upsert=True, new=True)
+def storeClubs(footballClub):
+    footballClub["created"] = dtm.utcnow()
+    return ClubTable.find_one_and_update({"club_wiki_id": footballClub['club_wiki_id']}, {"$set": footballClub}, upsert=True, new=True)
 
-def getfootballLeagues(offset=0, limit=100, search=None):
+def getfootballClubs(offset=0, limit=100, search=None):
     query = [
         {"$skip": int(offset)},
         {"$limit": int(limit)}
     ]
     
     if search != None:
-        response = findfootballLeague(f'"{search}"')
+        response = findfootballClub(f'"{search}"')
         count = len(response)
     else:
-        result = list(LeagueTable.aggregate(query))
+        result = list(ClubTable.aggregate(query))
         for item in result:
             item['_id'] = str(item['_id'])
         response = json.loads(json.dumps(result, default=str))
-        count = getfootballLeaguesCount()
+        count = getfootballClubsCount()
 
     return {
         "totalCount": count,
         "data": response,
     }
 
-def getfootballLeaguesCount():
-    return LeagueTable.count_documents({})
+def getfootballClubsCount():
+    return ClubTable.count_documents({})
 
-def findfootballLeague(text):
+def findfootballClub(text):
     index = [
         ("name", pymongo.TEXT),
         ("occupation", pymongo.TEXT),
@@ -47,11 +47,11 @@ def findfootballLeague(text):
             }
     }
     
-    LeagueTable.create_index(index)
-    data = list(LeagueTable.find(searchQuery))
+    ClubTable.create_index(index)
+    data = list(ClubTable.find(searchQuery))
     return json.loads(json.dumps(data, default=str))
 
-# def getfootballLeaguesforSearch(offset=0, limit=100, isCirightPushed=False):
+# def getfootballClubsforSearch(offset=0, limit=100, isCirightPushed=False):
 
 #     query = [
 #         {
@@ -83,13 +83,13 @@ def findfootballLeague(text):
 #         {"$limit":limit}
 #     ]
 
-#     return list(footballLeagueTable.aggregate(query))
+#     return list(footballClubTable.aggregate(query))
 
-def updatefootballLeagueIds(data):
-    for footballLeague in data:
+def updatefootballClubIds(data):
+    for footballClub in data:
         updateData = {
             "updated": dtm.utcnow(),
-            "manufactureId" : footballLeague['value'],
+            "manufactureId" : footballClub['value'],
             "company_pushed": True,
         }
-        LeagueTable.find_one_and_update({"_id": ObjectId(footballLeague["key"])}, {"$set": updateData})
+        ClubTable.find_one_and_update({"_id": ObjectId(footballClub["key"])}, {"$set": updateData})

@@ -10,3 +10,5 @@ db = client[database.name]
 
 # Database Tables
 LeagueTable = db.football_league
+ClubTable = db.football_club
+PlayerTable = db.football_player

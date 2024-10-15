@@ -76,6 +76,12 @@ class LeaguesItem(scrapy.Item):
     )
 
 class ClubsItem(scrapy.Item):
+
+    club_wiki_id = scrapy.Field(
+        input_processor = MapCompose(get_wiki_id),
+        output_processor = TakeFirst()
+    )
+
     # Field for club title
     title = scrapy.Field(
         input_processor = MapCompose(str.strip),
@@ -171,6 +177,12 @@ class ClubsItem(scrapy.Item):
         input_processor = MapCompose(),
     )
 class PlayersItem(scrapy.Item):
+
+    player_wiki_id = scrapy.Field(
+        input_processor = MapCompose(get_wiki_id),
+        output_processor = TakeFirst()
+    )
+
     # Field for first name
     first_name = scrapy.Field(
         input_processor = MapCompose(str.strip),
