@@ -88,6 +88,11 @@ class ClubsItem(scrapy.Item):
         output_processor = TakeFirst()
     )
 
+    nickname = scrapy.Field(
+        input_processor = MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
+
     # Field for description (removing HTML tags)
     description = scrapy.Field(
         input_processor = MapCompose(remove_tags, str.strip),
@@ -96,6 +101,22 @@ class ClubsItem(scrapy.Item):
 
     # Field for inception date
     inception_date = scrapy.Field(
+        input_processor = MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
+    chairman = scrapy.Field(
+        input_processor = MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
+    manager = scrapy.Field(
+        input_processor = MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
+    league = scrapy.Field(
+        input_processor = MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
+    ground = scrapy.Field(
         input_processor = MapCompose(str.strip),
         output_processor = TakeFirst()
     )
