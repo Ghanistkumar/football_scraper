@@ -204,6 +204,11 @@ class PlayersItem(scrapy.Item):
         output_processor = TakeFirst()
     )
 
+    wiki_url = scrapy.Field(
+        input_processor = MapCompose(),
+        output_processor = TakeFirst()
+    )
+
     # Field for first name
     first_name = scrapy.Field(
         input_processor = MapCompose(str.strip),
@@ -241,7 +246,7 @@ class PlayersItem(scrapy.Item):
     )
 
     # Field for mobile number
-    mobile = scrapy.Field(
+    player_image = scrapy.Field(
         input_processor = MapCompose(str.strip),
         output_processor = TakeFirst()
     )
