@@ -25,9 +25,9 @@ class FootballScraperPipeline:
             clubsDict = ItemAdapter(item).asdict()
             clubs = storeClubs(clubsDict)
             print(clubs)
-            return leagues
+            return clubs
         if spider.name == "players":
             playersDict = ItemAdapter(item).asdict()
             players = storePlayers(playersDict)
             print(players)
-            return leagues
+            return players
