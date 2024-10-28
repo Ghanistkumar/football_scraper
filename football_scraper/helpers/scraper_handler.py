@@ -113,3 +113,15 @@ def printSuccess(msg):
     
 def remove_white_spaces(text):
     return ' '.join(str(text).split())
+
+def parse_seasons(seasons):
+    result = []
+    for season in seasons.split(', '):
+        start_year, end_year = season.split('–')
+        start_date = f"01/01/{start_year}"
+        end_date = f"12/31/19{end_year}"
+        result.append({
+            "start_date": start_date,
+            "end_date": end_date
+        })
+    return result

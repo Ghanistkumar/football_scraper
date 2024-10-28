@@ -9,7 +9,9 @@ from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor, defer
 
 
-from musicians.spiders.FootballSpider import FootballSpider
+from football_scraper.spiders.leagues import LeaguesSpider
+from football_scraper.spiders.clubs import ClubsSpider
+from football_scraper.spiders.players import PlayersSpider
 
 
 configure_logging()
@@ -20,7 +22,9 @@ runner = CrawlerRunner(settings)
 @defer.inlineCallbacks
 def main():
 
-    yield runner.crawl(FootballSpider)
+    yield runner.crawl(LeaguesSpider)
+    yield runner.crawl(ClubsSpider)
+    yield runner.crawl(PlayersSpider)
     
     reactor.stop()
 

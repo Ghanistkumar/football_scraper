@@ -1,4 +1,4 @@
-scrapy==2.9.0
+scrapy
 pymongo
 scrapy-useragents
 scrapy-fake-useragent
