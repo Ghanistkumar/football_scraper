@@ -6,7 +6,7 @@
 import scrapy
 from itemloaders.processors import MapCompose, TakeFirst
 from w3lib.html import remove_tags
-from football_scraper.helpers.scraper_handler import parse_seasons, remove_html_tags, remove_newline_tab, remove_newline_tab, extractDatefromString, image_url_handler, remove_style_tags, get_wiki_id, split_data, string_to_lowercase, remove_white_spaces
+from football_scraper.helpers.scraper_handler import parse_seasons, remove_html_tags, remove_newline_tab, remove_newline_tab, extractDatefromString, image_url_handler, remove_style_tags, get_wiki_id, split_data, string_to_lowercase, remove_white_spaces, extract_person_id
 
 
 class FootballScraperItem(scrapy.Item):
@@ -27,6 +27,97 @@ class FootballScraperItem(scrapy.Item):
     #     output_processor = TakeFirst()
     # )
     pass
+
+class TheFaItem(scrapy.Item):
+    position = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags, remove_newline_tab),
+        output_processor=TakeFirst()
+    )
+    player_name = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags, remove_newline_tab),
+        output_processor=TakeFirst()
+    )
+    league_id = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags, remove_newline_tab,),
+        output_processor=TakeFirst()
+    )
+    player_id = scrapy.Field(
+        input_processor=MapCompose(remove_newline_tab, extract_person_id),
+        output_processor=TakeFirst()
+    )
+    team = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags, remove_newline_tab),
+        output_processor=TakeFirst()
+    )
+    appearances = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags, remove_newline_tab),
+        output_processor=TakeFirst()
+    )
+    overall_goals = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    goals = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    penalties = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    assists = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    yellow_cards = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    red_cards = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    second_yellow_card = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    sin_bin = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    started = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    subbed_on = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    subbed_off = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    bench_used = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    bench_unused = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    own_goal_conceded = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    captain = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+    player_of_match = scrapy.Field(
+        input_processor=MapCompose(remove_html_tags,remove_newline_tab, remove_white_spaces),
+        output_processor=TakeFirst()
+    )
+
 class LeaguesItem(scrapy.Item):
 
     league_wiki_id = scrapy.Field(

@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 from football_scraper.queries.football_league import storeLeagues
 from football_scraper.queries.football_club import storeClubs
 from football_scraper.queries.football_player import storePlayers
+from football_scraper.queries.football_thefa import storeTheFa
 
 class FootballScraperPipeline:
 
@@ -30,4 +31,10 @@ class FootballScraperPipeline:
             playersDict = ItemAdapter(item).asdict()
             players = storePlayers(playersDict)
             print(players)
+            return players
+        
+        if spider.name == "thefa":
+            theFasDict = ItemAdapter(item).asdict()
+            players = storeTheFa(theFasDict)
+            print(theFasDict)
             return players

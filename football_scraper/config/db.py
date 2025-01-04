@@ -12,3 +12,4 @@ db = client[database.name]
 LeagueTable = db.football_league
 ClubTable = db.football_club
 PlayerTable = db.football_player
+TheFaTable = db.the_fa

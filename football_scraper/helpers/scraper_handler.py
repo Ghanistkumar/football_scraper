@@ -125,3 +125,29 @@ def parse_seasons(seasons):
             "end_date": end_date
         })
     return result
+
+def extract_person_id(url):
+    """
+    Extracts the personID from a URL string.
+
+    Args:
+        url (str): The URL containing the personID.
+
+    Returns:
+        str: The extracted personID or None if not found.
+    """
+    match = re.search(r'personID=(\d+)', url)
+    return match.group(1) if match else None
+
+def extract_league_id(url):
+    """
+    Extracts the league ID from a URL string.
+
+    Args:
+        url (str): The URL containing the league ID.
+
+    Returns:
+        str: The extracted league ID or None if not found.
+    """
+    match = re.search(r'league=(\d+)', url)
+    return match.group(1) if match else None
