@@ -112,7 +112,8 @@ def printSuccess(msg):
           getTime(TIME_FORMAT_STRING) + ' SUCCESS: ' + str(msg) + CEND)
     
 def remove_white_spaces(text):
-    return ' '.join(str(text).split())
+    cleaned_text = ' '.join(str(text).split())
+    return cleaned_text if cleaned_text else " "
 
 def parse_seasons(seasons):
     result = []

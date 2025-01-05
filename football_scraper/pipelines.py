@@ -9,12 +9,18 @@ from itemadapter import ItemAdapter
 from football_scraper.queries.football_league import storeLeagues
 from football_scraper.queries.football_club import storeClubs
 from football_scraper.queries.football_player import storePlayers
-from football_scraper.queries.football_thefa import storeTheFa
-
+from football_scraper.queries.football_thefa import storeSingleRecord
+import json
 class FootballScraperPipeline:
 
     def __init__(self):
+        self.all_items = []
         print("Initialized mongodb pipline")
+    
+    def close_spider(self, spider):
+    # Save all items to a JSON file
+        with open("all_items.json", "w") as f:
+            json.dump(self.all_items, f, indent=4)
 
     def process_item(self, item, spider):
         if spider.name == "leagues":
@@ -35,6 +41,7 @@ class FootballScraperPipeline:
         
         if spider.name == "thefa":
             theFasDict = ItemAdapter(item).asdict()
-            players = storeTheFa(theFasDict)
-            print(theFasDict)
-            return players
+            # players = storeSingleRecord(theFasDict)
+            # print(theFasDict)
+            self.all_items.append(theFasDict)
+            return theFasDict

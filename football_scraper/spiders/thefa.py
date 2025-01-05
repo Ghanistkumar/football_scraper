@@ -6,8 +6,13 @@ from football_scraper.items import TheFaItem
 class TheFaSpider(scrapy.Spider):
     name = 'thefa'
     
-    # Starting URL (English football league system on Wikipedia)
-    start_urls = ['https://fulltime.thefa.com/statLeaders/1/1000.html?selectedSeason=459314984&selectedFixtureGroupAgeGroup=0&selectedDivision=0&selectedStatisticDisplayMode=1']
+    def __init__(self, request_url=None, *args, **kwargs):
+        super(TheFaSpider, self).__init__(*args, **kwargs)
+        self.request_url = request_url 
+
+    def start_requests(self):
+        start_urls = self.request_url
+        yield scrapy.Request(url=start_urls, callback=self.parse)
 
     def parse(self, response):
         league_id = response.xpath('//*[@id="ft-header"]/nav[2]/div/ul/li[1]/a/@href').get()

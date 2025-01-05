@@ -3,7 +3,7 @@ class database:
     host = "127.0.0.1"
     port = 27017
 
-COMPANY_ENDPOINT_BASE_URL = ""
+COMPANY_ENDPOINT_BASE_URL = "https://liveapi.footballfam.io/api/v1/capture-ps"
 
 class locations:
     
