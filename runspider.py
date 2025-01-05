@@ -4,8 +4,10 @@ from scrapy.utils.project import get_project_settings
 from football_scraper.queries.football_thefa import getAllData
 import os, json
 from football_scraper.api.contact import addFootballDataToServer
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Define the route to accept an ID and trigger the Scrapy spider
 @app.route('/run_spider', methods=['POST'])
